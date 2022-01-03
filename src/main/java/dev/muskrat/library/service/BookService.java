@@ -10,7 +10,7 @@ public interface BookService {
 
     void addBook(Book book);
 
-    void removeBook(Book book);
+    void removeBook(Long id);
 
     List<Book> findByGenre(Genre genre);
 
@@ -23,4 +23,10 @@ public interface BookService {
     List<Book> findSortByWriter(List<Book> books);
 
     List<Book> findSortByTitle(List<Book> books);
+
+    Book findById(Long id);
+
+    List<Book> findByGenreAndWriter(Genre genre, String writer);
+
+    List<String> searchWriters();
 }

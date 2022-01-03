@@ -3,11 +3,11 @@ package dev.muskrat.library.service;
 import dev.muskrat.library.dao.Book;
 import dev.muskrat.library.dao.Genre;
 import dev.muskrat.library.dao.User;
+import dev.muskrat.library.exception.BookNotFoundException;
 import dev.muskrat.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +25,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void removeBook(Book book) {
-        bookRepository.delete(book);
+    public void removeBook(Long id) {
+        bookRepository.deleteById(id);
     }
 
     @Override
@@ -69,5 +69,29 @@ public class BookServiceImpl implements BookService {
         return books.stream()
             .sorted(Comparator.comparing(Book::getTitle))
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public Book findById(Long id) {
+        return bookRepository
+                .findById(id)
+                .orElseThrow(() -> new BookNotFoundException("Книга не найдена"));
+    }
+
+    @Override
+    public List<Book> findByGenreAndWriter(Genre genre, String writer) {
+        return bookRepository.findAll().stream()
+                .filter(book -> genre == null || book.getGenre().equals(genre))
+                .filter(book -> writer == null || book.getWriter().toLowerCase().contains(writer.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> searchWriters() {
+        return bookRepository.findAll().stream()
+                .map(Book::getWriter)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }

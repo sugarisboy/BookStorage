@@ -1,13 +1,21 @@
 package dev.muskrat.library.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Data
 @Entity
@@ -17,9 +25,11 @@ import java.time.Instant;
 public class TakenBook {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinTable(name="book_takenbook",
         joinColumns = @JoinColumn(name="taken_id", referencedColumnName="id"),
@@ -27,6 +37,7 @@ public class TakenBook {
     )
     private Book book;
 
+    @JsonIgnore
     @ManyToOne
     @JoinTable(name="user_takenbook",
         joinColumns = @JoinColumn(name="taken_id", referencedColumnName="id"),

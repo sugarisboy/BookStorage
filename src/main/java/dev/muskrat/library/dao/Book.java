@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,7 +14,6 @@ import java.util.List;
 @Table(name = "books")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Book {
 
     @Id
@@ -41,7 +41,7 @@ public class Book {
         joinColumns = @JoinColumn(name="book_id", referencedColumnName="id"),
         inverseJoinColumns = @JoinColumn(name="taken_id", referencedColumnName="id")
     )
-    private List<TakenBook> users;
+    private List<TakenBook> users = new ArrayList<>();
 
     public String toString() {
         return String.format("%3d %20s %30s %15s %5d %5d",

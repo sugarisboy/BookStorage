@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -47,10 +46,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void lendBook(User user, Book book) throws BookNotFoundException {
+    public void lendBook(Long userId, Long bookId) throws BookNotFoundException {
+        User user = this.findById(userId);
+        // TODO: FIX REPO CALLING
+        Book book = bookRepository.getOne(bookId);
+
         if (book.getCount() < 1)
             throw new BookNotFoundException(
-                String.format("Book %s not available", book.getTitle())
+                String.format("Книги \"%s\" нет в наличии", book.getTitle())
             );
 
         book.setCount(book.getCount() - 1);
@@ -68,14 +71,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ReturnBookDTO returnBook(Long bookId, Long userId) {
+    public ReturnBookDTO returnBook(Long userId, Long bookId) {
         Book book = bookRepository.findById(bookId).orElseThrow(
             () -> new BadRequestException("Book with id " + bookId + " not found")
         );
 
         List<TakenBook> usersTakeBook = book.getUsers();
         TakenBook takenBook = usersTakeBook.stream()
-            .filter(b -> b.getUser().getId() == userId)
+            .filter(b -> b.getUser().getId().equals(userId))
             .min((a, b) -> a.getExpired().getNano() < b.getExpired().getNano() ? 1 : -1)
             .orElseThrow(
                 () -> new BadRequestException(userId + " don't lend book with id " + bookId)
@@ -92,6 +95,13 @@ public class UserServiceImpl implements UserService {
         return ReturnBookDTO.builder()
             .fine(fine)
             .build();
+    }
+
+    @Override
+    public User findById(Long userId) {
+        return userRepository
+                .findById(userId)
+                .orElseThrow(() -> new BookNotFoundException("Пользователь не найден"));
     }
 
     @Override

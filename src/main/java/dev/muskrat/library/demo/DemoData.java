@@ -20,7 +20,7 @@ public class DemoData {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
 
-    //@PostConstruct
+    @PostConstruct
     public void load() {
         User firstUser = User.builder()
             .firstName("Никита")

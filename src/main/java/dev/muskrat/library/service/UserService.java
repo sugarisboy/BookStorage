@@ -10,9 +10,11 @@ public interface UserService {
 
     void delete(User user);
 
-    void lendBook(User user, Book book);
+    void lendBook(Long user, Long book);
 
     long userAge(User user);
 
-    ReturnBookDTO returnBook(Long bookId, Long userId);
+    ReturnBookDTO returnBook(Long userId, Long bookId);
+
+    User findById(Long userId);
 }

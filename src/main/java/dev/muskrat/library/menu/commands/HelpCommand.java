@@ -1,7 +1,7 @@
+/*
 package dev.muskrat.library.menu.commands;
 
 import dev.muskrat.library.exception.BadRequestException;
-import dev.muskrat.library.menu.CommandMenu;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,3 +30,4 @@ public class HelpCommand extends CommandMenu {
         System.out.println("users");
     }
 }
+*/

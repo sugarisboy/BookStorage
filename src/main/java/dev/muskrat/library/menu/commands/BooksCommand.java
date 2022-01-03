@@ -1,10 +1,10 @@
+/*
 package dev.muskrat.library.menu.commands;
 
 import dev.muskrat.library.dao.Book;
 import dev.muskrat.library.dao.Genre;
 import dev.muskrat.library.dao.User;
 import dev.muskrat.library.exception.BadRequestException;
-import dev.muskrat.library.menu.CommandMenu;
 import dev.muskrat.library.repository.BookRepository;
 import dev.muskrat.library.repository.UserRepository;
 import dev.muskrat.library.service.BookService;
@@ -97,3 +97,4 @@ public class BooksCommand extends CommandMenu {
         books.forEach(System.out::println);
     }
 }
+*/
