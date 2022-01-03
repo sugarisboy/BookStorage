@@ -6,6 +6,7 @@ import dev.muskrat.library.dao.User;
 import dev.muskrat.library.dto.ReturnBookDTO;
 import dev.muskrat.library.exception.BadRequestException;
 import dev.muskrat.library.exception.BookNotFoundException;
+import dev.muskrat.library.exception.DeleteUserFailedException;
 import dev.muskrat.library.repository.BookRepository;
 import dev.muskrat.library.repository.TakenBookRepository;
 import dev.muskrat.library.repository.UserRepository;
@@ -19,6 +20,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -73,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ReturnBookDTO returnBook(Long userId, Long bookId) {
         Book book = bookRepository.findById(bookId).orElseThrow(
-            () -> new BadRequestException("Book with id " + bookId + " not found")
+            () -> new BadRequestException("Книга " + bookId + " не найдена")
         );
 
         List<TakenBook> usersTakeBook = book.getUsers();
@@ -81,7 +83,7 @@ public class UserServiceImpl implements UserService {
             .filter(b -> b.getUser().getId().equals(userId))
             .min((a, b) -> a.getExpired().getNano() < b.getExpired().getNano() ? 1 : -1)
             .orElseThrow(
-                () -> new BadRequestException(userId + " don't lend book with id " + bookId)
+                () -> new BadRequestException(userId + " не брал книгу эту книгу!")
             );
 
         Instant now = Instant.now().truncatedTo(ChronoUnit.DAYS);
@@ -102,6 +104,24 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findById(userId)
                 .orElseThrow(() -> new BookNotFoundException("Пользователь не найден"));
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        User user = findById(id);
+
+        List<TakenBook> takenBooks = user.getBooks();
+        if (!takenBooks.isEmpty()) {
+            String bookTitles = takenBooks.stream()
+                    .map(TakenBook::getBook)
+                    .map(Book::getTitle)
+                    .reduce((a, b) -> a + ", " + b)
+                    .orElseThrow();
+
+            throw new DeleteUserFailedException("Невозможно удалить пользователя, так как у него не сданы: " + bookTitles);
+        }
+
+        userRepository.deleteById(id);
     }
 
     @Override

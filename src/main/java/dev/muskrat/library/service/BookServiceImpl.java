@@ -2,14 +2,18 @@ package dev.muskrat.library.service;
 
 import dev.muskrat.library.dao.Book;
 import dev.muskrat.library.dao.Genre;
+import dev.muskrat.library.dao.TakenBook;
 import dev.muskrat.library.dao.User;
 import dev.muskrat.library.exception.BookNotFoundException;
+import dev.muskrat.library.exception.DeleteBookFailedException;
+import dev.muskrat.library.exception.DeleteUserFailedException;
 import dev.muskrat.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +29,20 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void removeBook(Long id) {
+    public void deleteBook(Long id) {
+        Book book = findById(id);
+
+        List<TakenBook> takenBooks = book.getUsers();
+        if (!takenBooks.isEmpty()) {
+            String bookTitles = takenBooks.stream()
+                    .map(TakenBook::getUser)
+                    .map(user -> String.format("%s %s", user.getLastName(), user.getFirstName()))
+                    .reduce((a, b) -> a + ", " + b)
+                    .orElseThrow();
+
+            throw new DeleteBookFailedException("Невозможно удалить книгу, так как она не сдана для: " + bookTitles);
+        }
+
         bookRepository.deleteById(id);
     }
 

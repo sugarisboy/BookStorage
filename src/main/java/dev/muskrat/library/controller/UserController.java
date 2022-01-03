@@ -6,7 +6,9 @@ import dev.muskrat.library.dto.ReturnBookDTO;
 import dev.muskrat.library.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,5 +45,11 @@ public class UserController {
             @RequestParam @ApiParam("ID книги") Long bookId
     ) {
         return userService.returnBook(userId, bookId);
+    }
+
+    @DeleteMapping("/{id}")
+    @ApiOperation("Удаление пользователя")
+    public void delete(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 }

@@ -17,4 +17,6 @@ public interface UserService {
     ReturnBookDTO returnBook(Long userId, Long bookId);
 
     User findById(Long userId);
+
+    void deleteUser(Long id);
 }

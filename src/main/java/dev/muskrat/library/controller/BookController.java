@@ -6,6 +6,7 @@ import dev.muskrat.library.dto.CreateBookDto;
 import dev.muskrat.library.service.BookService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,12 +31,20 @@ public class BookController {
     }
 
     @GetMapping("/list")
+    @ApiOperation("Получение всех книг")
     public List<Book> getListBooks() {
         return bookService.findSortByTitle(bookService.findAll());
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("Получение книги по ID")
     public Book getBook(@PathVariable Long id) {
         return bookService.findById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ApiOperation("Удаление книги")
+    public void delete(@PathVariable Long id) {
+        bookService.deleteBook(id);
     }
 }

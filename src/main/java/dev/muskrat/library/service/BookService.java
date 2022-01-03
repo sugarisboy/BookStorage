@@ -10,7 +10,7 @@ public interface BookService {
 
     void addBook(Book book);
 
-    void removeBook(Long id);
+    void deleteBook(Long id);
 
     List<Book> findByGenre(Genre genre);
 
