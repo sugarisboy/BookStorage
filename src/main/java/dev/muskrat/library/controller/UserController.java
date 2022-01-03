@@ -3,6 +3,7 @@ package dev.muskrat.library.controller;
 import dev.muskrat.library.dao.Book;
 import dev.muskrat.library.dao.User;
 import dev.muskrat.library.dto.ReturnBookDTO;
+import dev.muskrat.library.dto.UserDto;
 import dev.muskrat.library.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -26,7 +27,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ApiOperation("Получить пользователя по ID")
-    public User getUser(@PathVariable Long id) {
+    public UserDto getUser(@PathVariable Long id) {
         return userService.findById(id);
     }
 
@@ -56,7 +57,7 @@ public class UserController {
 
     @GetMapping("/list")
     @ApiOperation("Получение всех пользователей")
-    public List<User> getListBooks() {
+    public List<UserDto> getListBooks() {
         return userService.findAll();
     }
 }

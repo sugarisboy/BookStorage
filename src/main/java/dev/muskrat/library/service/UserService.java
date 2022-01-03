@@ -3,6 +3,7 @@ package dev.muskrat.library.service;
 import dev.muskrat.library.dao.Book;
 import dev.muskrat.library.dao.User;
 import dev.muskrat.library.dto.ReturnBookDTO;
+import dev.muskrat.library.dto.UserDto;
 import java.util.List;
 
 public interface UserService {
@@ -17,9 +18,9 @@ public interface UserService {
 
     ReturnBookDTO returnBook(Long userId, Long bookId);
 
-    User findById(Long userId);
+    UserDto findById(Long userId);
 
     void deleteUser(Long id);
 
-    List<User> findAll();
+    List<UserDto> findAll();
 }
