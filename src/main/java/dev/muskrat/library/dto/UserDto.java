@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -15,6 +16,6 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String thirdName;
-    private Instant birthday;
+    private LocalDate birthday;
     private List<UserBook> books;
 }
