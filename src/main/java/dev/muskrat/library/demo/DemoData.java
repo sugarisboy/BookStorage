@@ -92,15 +92,10 @@ public class DemoData {
         bookRepository.save(book3);
         bookRepository.save(book4);
         bookRepository.save(book5);
-
-        System.out.println();
     }
 
 
-    private Instant dateOf(int year, int month, int day) {
-        return LocalDate
-            .of(year, month, day)
-            .atTime(0, 0)
-            .toInstant(ZoneOffset.UTC);
+    private LocalDate dateOf(int year, int month, int day) {
+        return LocalDate.of(year, month, day);
     }
 }

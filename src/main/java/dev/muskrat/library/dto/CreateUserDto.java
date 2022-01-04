@@ -1,9 +1,12 @@
 package dev.muskrat.library.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -22,5 +25,6 @@ public class CreateUserDto {
     private String thirdName;
 
     @NotNull(message = "Не указана дата рождения")
-    private Instant birthday;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate birthday;
 }

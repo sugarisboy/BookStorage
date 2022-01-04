@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -35,7 +36,7 @@ public class User {
     private String thirdName;
 
     @Column(name = "birthday")
-    private Instant birthday;
+    private LocalDate birthday;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name="user_takenbook",
@@ -43,14 +44,4 @@ public class User {
         inverseJoinColumns = @JoinColumn(name="taken_id", referencedColumnName="id")
     )
     private List<TakenBook> books;
-
-    public String toString() {
-        return String.format("%3d %12s %12s %16s %15s",
-            id,
-            firstName,
-            lastName,
-            thirdName,
-            new SimpleDateFormat ("dd MMM YYYY").format(Date.from(birthday))
-        );
-    }
 }

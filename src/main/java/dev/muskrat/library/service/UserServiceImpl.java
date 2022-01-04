@@ -149,7 +149,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public long userAge(User user) {
         Instant now = Instant.now();
-        Instant expired = user.getBirthday();
+        Instant expired = user.getBirthday()
+                .atTime(0, 0)
+                .toInstant(ZoneOffset.UTC);
 
         return ChronoUnit.YEARS.between(
                 OffsetDateTime.ofInstant(expired, ZoneOffset.UTC),
