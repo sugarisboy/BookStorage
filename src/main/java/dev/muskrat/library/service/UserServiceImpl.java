@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.muskrat.library.dao.Book;
 import dev.muskrat.library.dao.TakenBook;
 import dev.muskrat.library.dao.User;
+import dev.muskrat.library.dto.CreateUserDto;
 import dev.muskrat.library.dto.ReturnBookDTO;
 import dev.muskrat.library.dto.UserBook;
 import dev.muskrat.library.dto.UserDto;
@@ -42,7 +43,9 @@ public class UserServiceImpl implements UserService {
     private double bookExpireFine;
 
     @Override
-    public User register(User user) {
+    public User register(CreateUserDto dto) {
+        User user = objectMapper.convertValue(dto, User.class);
+
         return userRepository.save(user);
     }
 

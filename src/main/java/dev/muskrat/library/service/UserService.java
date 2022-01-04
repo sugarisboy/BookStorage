@@ -2,13 +2,14 @@ package dev.muskrat.library.service;
 
 import dev.muskrat.library.dao.Book;
 import dev.muskrat.library.dao.User;
+import dev.muskrat.library.dto.CreateUserDto;
 import dev.muskrat.library.dto.ReturnBookDTO;
 import dev.muskrat.library.dto.UserDto;
 import java.util.List;
 
 public interface UserService {
 
-    User register(User user);
+    User register(CreateUserDto user);
 
     void delete(User user);
 
