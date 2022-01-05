@@ -25,16 +25,17 @@ public class SearchService {
     private final TakenBookRepository takenBookRepository;
 
     public List<Book> searchBooks(BookFilterDto bookFilterDto) {
-        User user = userRepository
-                .findById(bookFilterDto.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
-
         List<Book> books = bookService.findByGenreAndWriter(
                 bookFilterDto.getGenre(),
                 bookFilterDto.getWriter()
         );
 
-        List<Book> safeBooks = bookService.safeSort(user, books);
+        if (bookFilterDto.getUserId() != null) {
+            User user = userRepository
+                    .findById(bookFilterDto.getUserId())
+                    .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
+            books = bookService.safeSort(user, books);
+        }
 
         Map<BookSort, Function<List<Book>, List<Book>>> mapSort = Map.of(
                 BookSort.NONE, list -> list,
@@ -44,7 +45,7 @@ public class SearchService {
 
         Function<List<Book>, List<Book>> sortFunction = mapSort.get(bookFilterDto.getSortBy());
 
-        return sortFunction.apply(safeBooks);
+        return sortFunction.apply(books);
     }
 
     public List<String> searchWriters() {

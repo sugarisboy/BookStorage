@@ -42,15 +42,4 @@ public class Book {
         inverseJoinColumns = @JoinColumn(name="taken_id", referencedColumnName="id")
     )
     private List<TakenBook> users = new ArrayList<>();
-
-    public String toString() {
-        return String.format("%3d %20s %30s %15s %5d %5d",
-            id,
-            writer,
-            title,
-            genre.getI18n(),
-            ageLimit,
-            count
-        );
-    }
 }

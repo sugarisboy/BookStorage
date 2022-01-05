@@ -44,7 +44,7 @@ public class DemoData {
             .build();
 
         Book book1 = Book.builder()
-            .writer("Л. Н. Толстой")
+            .writer("Толстой Л. Н.")
             .title("Война и мир: Том I")
             .ageLimit(16)
             .count(3)
@@ -52,7 +52,7 @@ public class DemoData {
             .build();
 
         Book book2 = Book.builder()
-            .writer("Л. Н. Толстой")
+            .writer("Толстой Л. Н.")
             .title("Война и мир: Том II")
             .ageLimit(16)
             .count(0)
@@ -60,7 +60,7 @@ public class DemoData {
             .build();
 
         Book book3 = Book.builder()
-            .writer("Л. Н. Толстой")
+            .writer("Толстой Л. Н.")
             .title("Война и мир: Том III")
             .ageLimit(12)
             .count(1)
@@ -68,7 +68,7 @@ public class DemoData {
             .build();
 
         Book book4 = Book.builder()
-            .writer("А. Б. Вгдейкин")
+            .writer("Вгдейкин А. Б.")
             .title("Путешествие на марс")
             .ageLimit(10)
             .count(2)
@@ -76,7 +76,7 @@ public class DemoData {
             .build();
 
         Book book5 = Book.builder()
-            .writer("Т. П. Независимая")
+            .writer("Независимая Т. П.")
             .title("История черной кошечки")
             .ageLimit(40)
             .count(2)

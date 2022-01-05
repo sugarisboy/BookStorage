@@ -22,7 +22,6 @@ public class BookFilterDto {
     private String writer;
 
     @ApiModelProperty("Пользователь")
-    @NotNull(message = "Пользователь не указан")
     @Positive(message = "ID пользователя должно быть больше нуля")
     private Long userId;
 
